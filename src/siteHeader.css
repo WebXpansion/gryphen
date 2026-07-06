@@ -75,38 +75,74 @@
   .nav-product:focus-within .nav-link__chevron {
     transform: rotate(180deg);
   }
+
+  
+
   
   .product-menu {
     position: absolute;
-    top: calc(100% + 10px);
-    left: -14px;
-    display: grid;
-    min-width: 174px;
-    gap: 2px;
-    padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    background: rgba(5, 6, 8, 0.86);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    top: calc(100% + 14px);
+    left: -18px;
+    width: min(360px, calc(100vw - 32px));
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+    background: rgba(12, 14, 18, 0.48);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.46);
     opacity: 0;
-    transform: translateY(-6px) scale(0.98);
+    transform: translateY(-8px) scale(0.98);
     transform-origin: top left;
-    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
     visibility: hidden;
   }
   
-  .product-menu a {
-    padding: 10px 12px;
-    border-radius: 10px;
-    color: rgba(255, 255, 255, 0.76);
-    font-size: 0.92rem;
+  .product-menu__card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 210px;
+    overflow: hidden;
+    border-radius: 16px;
+    isolation: isolate;
   }
   
-  .product-menu a:hover,
-  .product-menu a:focus-visible {
-    background: rgba(255, 255, 255, 0.08);
+  .product-menu__title {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
     color: #fff;
+    font-size: 100px;
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
+    transform: translate(-50%, -58%);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  
+  .product-menu__card img {
+    position: relative;
+    z-index: 2;
+    width: min(96%, 240px);
+    height: auto;
+    transform: translateY(18px);
+    filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.34));
+    transition: transform 220ms ease;
+  }
+  
+  .product-menu__card:hover img,
+  .product-menu__card:focus-visible img {
+    transform: translateY(12px) scale(1.025);
+  }
+  
+  .product-menu__card:focus-visible {
     outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.86);
   }
   
   .nav-product[data-open="true"] .product-menu,
@@ -115,6 +151,40 @@
     opacity: 1;
     transform: translateY(0) scale(1);
     visibility: visible;
+  }
+
+  .mobile-menu__product-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    margin-bottom: 6px;
+    padding: 0 !important;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  
+  .mobile-menu__product-card span {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    color: #fff;
+    font-size: clamp(4.8rem, 22vw, 6.8rem);
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
+    transform: translate(-50%, -58%);
+    white-space: nowrap;
+  }
+  
+  .mobile-menu__product-card img {
+    position: relative;
+    z-index: 2;
+    width: min(96%, 310px);
+    height: auto;
+    transform: translateY(18px);
+    filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.34));
   }
   
   .logo-link {
@@ -224,18 +294,23 @@
   
   .mobile-menu a:hover,
   .mobile-menu a:focus-visible {
-    background: rgba(255, 255, 255, 0.08);
+    background: transparent;
     color: #fff;
     outline: none;
   }
+
   
   .nav-link:focus-visible,
   .contact-link:focus-visible,
   .logo-link:focus-visible,
-  .hamburger:focus-visible,
-  .mobile-menu a:focus-visible {
+  .hamburger:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.86);
+  }
+  
+  .mobile-menu a:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
   
   @media (max-width: 860px) {

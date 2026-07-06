@@ -25,14 +25,15 @@ export function initSiteHeader() {
             </svg>
           </button>
 
-          <div class="product-menu">
-            <a href="/index.html">G750 – RPAS</a>
-            <a href="/home.html">Platforms</a>
-            <a href="/training.html">Training</a>
-          </div>
+        <div class="product-menu">
+          <a class="product-menu__card" href="/index.html">
+            <span class="product-menu__title">G750</span>
+            <img src="/G750.webp" alt="G750 aircraft" />
+          </a>
+        </div>
         </div>
 
-        <a class="nav-link" href="/company.html">Company</a>
+       <a class="nav-link" href="/home.html">Company</a>
       </nav>
 
       <button
@@ -51,18 +52,22 @@ export function initSiteHeader() {
         <img class="site-logo" src="/logo.png" alt="Gryphen" />
       </a>
 
-      <a class="contact-link" href="/contact.html">
+    <a class="contact-link" href="/home.html">
         <span>[</span>
         <em>Contact us</em>
         <span>]</span>
       </a>
     </div>
 
-    <nav class="mobile-menu" id="mobileMenu" hidden aria-label="Menu mobile">
-      <a href="/index.html">Products</a>
-      <a href="/company.html">Company</a>
-      <a href="/contact.html">Contact us</a>
-    </nav>
+<nav class="mobile-menu" id="mobileMenu" hidden aria-label="Menu mobile">
+  <a class="mobile-menu__product-card" href="/index.html">
+    <span>G750</span>
+    <img src="/G750.webp" alt="G750 aircraft" />
+  </a>
+
+  <a href="/home.html">Company</a>
+  <a href="/home.html">Contact us</a>
+</nav>
   `;
 
   if (mount.id === 'siteHeader') {
