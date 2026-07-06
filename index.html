@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="description" content="Site responsive avec header Gryphen et séquence image par image pilotée par le scroll." />
+    <link rel="preload" href="/logo.png" as="image" type="image/png" />
+    <link rel="preload" href="/frames/frame_0001.jpg" as="image" type="image/jpeg" />
+    <title>Gryphen — Scroll Sequence</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#sequence">Aller à l’animation</a>
+
+    <div id="siteHeader"></div>
+    <main class="page">
+      <section class="sequence" id="sequence" aria-label="Animation au scroll">
+        <div class="sequence__sticky">
+          <canvas
+            id="sequenceCanvas"
+            class="sequence__canvas"
+            width="1920"
+            height="1080"
+            aria-label="Animation image par image contrôlée par le scroll"
+          ></canvas>
+
+          <div class="hero-copy" id="heroCopy" aria-hidden="false">
+            <h1 data-digital-reveal data-digital-manual>G750 – RPAS</h1>
+            <p>Persistent Intelligence. Mission-Ready Autonomy.</p>
+          </div>
+
+          <section class="advantages-ui" id="advantagesUi" aria-hidden="true">
+            <div class="advantages-ui__top">
+              <h2 data-digital-reveal data-digital-manual>// Operational Advantages</h2>
+              <span id="advantagesCounter">01/04</span>
+            </div>
+          
+            <div class="advantages-ui__bottom">
+              <div class="corner-frame" aria-hidden="true"></div>
+          
+              <h3 id="advantagesTitle" data-digital-reveal data-digital-manual>Endurance</h3>
+          
+              <p id="advantagesText">
+                20+ hours of flight time for persistent surveillance and extended mission coverage.
+              </p>
+            </div>
+          </section>
+
+          <p class="loader" id="loader">Chargement de la séquence…</p>
+
+          <aside class="sequence-debug" aria-label="Debug frame courant">
+            <div class="sequence-debug__topline">
+              <span>Frame</span>
+              <strong><span id="currentFrame">1</span><small>/<span id="totalFrames">950</span></small></strong>
+            </div>
+
+            <div class="sequence-debug__bar" aria-hidden="true">
+              <span id="progressBar"></span>
+            </div>
+
+            <div class="sequence-debug__row">
+              <span>Progression</span>
+              <strong id="progressValue">0%</strong>
+            </div>
+
+            <div class="sequence-debug__row">
+              <span>Range actif</span>
+              <strong id="activeRange">hors range</strong>
+            </div>
+
+            <ol class="sequence-debug__ranges" id="rangeList"></ol>
+          </aside>
+        </div>
+      </section>
+
+      <section class="specs-section" aria-labelledby="specsTitle">
+        <div class="specs-section__inner">
+          <div class="specs-section__content">
+            <h2 id="specsTitle" data-digital-reveal>// Performance Specifications</h2>      
+            <dl class="specs-list">
+              <div class="specs-list__row">
+                <dt>WINGSPAN</dt>
+                <dd>8.60 m or 14.50 m</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>LENGTH</dt>
+                <dd>7.00 m</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>MTOW</dt>
+                <dd>900 kg</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>ENDURANCE</dt>
+                <dd>20+ hours</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>COMMUNICATION</dt>
+                <dd>LOS and BLOS</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>SENSORS SUPPORTED</dt>
+                <dd>EO/IR, SAR, SIGINT, COMINT</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>HARD POINTS</dt>
+                <dd>4/6</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>SERVICE CEILING</dt>
+                <dd>25,000 feet</dd>
+              </div>
+      
+              <div class="specs-list__row">
+                <dt>CRUISE SPEED</dt>
+                <dd>120 KTAS</dd>
+              </div>
+            </dl>
+          </div>
+      
+          <div class="specs-visual">
+            <div
+              class="product-rotate"
+              id="productRotate"
+              role="img"
+              tabindex="0"
+              aria-label="Vue 3D interactive du G750. Glissez horizontalement pour faire tourner le produit."
+            >
+              <canvas
+                class="product-rotate__canvas"
+                id="productRotateCanvas"
+                width="1920"
+                height="1080"
+              ></canvas>
+          
+              <span class="product-rotate__hint">Drag to rotate</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

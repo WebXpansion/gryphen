@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gryphen — Home</title>
+    <meta
+      name="description"
+      content="Gryphen homepage."
+    />
+  </head>
+
+  <body>
+    <div id="siteHeader"></div>
+  
+    <main class="home-page">
+      <section class="home-sequence" id="homeSequence">
+        <div class="home-sequence__sticky">
+          <canvas
+            id="homeSequenceCanvas"
+            class="home-sequence__canvas"
+            width="1920"
+            height="1080"
+            aria-label="Homepage scroll sequence"
+          ></canvas>
+          
+          <div class="home-hero-copy" id="homeHeroCopy" aria-hidden="true">
+            <div class="home-hero-copy__inner">
+              <div class="home-hero-copy__left">
+                <div
+                  class="home-hero-copy__eyebrow home-fade-delayed"
+                  id="homeHeroEyebrow"
+                >
+                  Built for tomorrow’s missions.
+                </div>
+          
+                <h1
+                class="home-hero-copy__title"
+                id="homeHeroTitle"
+                data-digital-reveal
+                data-digital-manual
+              >
+                Advanced Aerial Platforms  Defense &amp; Security
+              </h1>
+              </div>
+          
+              <p
+                class="home-hero-copy__text home-fade-delayed"
+                id="homeHeroText"
+              >
+                Gryphen Defense designs and manufactures mission-ready aircraft systems
+                for surveillance, training, tactical operations and special missions.
+              </p>
+            </div>
+          </div>
+
+          <div class="home-product-copy" id="homeProductCopy" aria-hidden="true">
+            <h1
+              class="home-product-copy__title"
+              id="homeProductTitle"
+              data-digital-reveal
+              data-digital-manual
+            >
+              G750 – RPAS
+            </h1>
+          
+            <p class="home-product-copy__text" id="homeProductText">
+              The Gryphen Defense G750-SMP sets a new standard for tactical and surveillance missions
+            </p>
+          
+            <a class="home-product-copy__link" id="homeProductLink" href="/index.html">
+              Learn more
+            </a>
+          </div>
+
+          <div class="home-frame-debug" id="homeFrameDebug">
+            <span>Home frame</span>
+            <strong>
+              <b id="homeCurrentFrame">1</b>/<b id="homeTotalFrames">646</b>
+            </strong>
+            <small id="homeProgressValue">0%</small>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="engineering-section" aria-labelledby="engineeringTitle">
+        <div class="engineering-section__inner">
+                <div class="engineering-section__copy">
+                    <div class="engineering-section__copy_inner">
+                    <h2 id="engineeringTitle">
+                    <span>Engineering Tomorrow’s</span>
+                    Aircraft Today
+                    </h2>
+            
+                    <p>
+                    Gryphen Defense brings decades of aeronautical engineering experience
+                    into the defense and security sector, delivering agile, reliable and
+                    mission-adaptable aerial platforms for modern operational needs.
+                    </p>
+                </div>
+            
+                <a class="engineering-section__link" href="/index.html">
+                    Learn more
+                </a>
+                </div>
+          <img
+            class="engineering-section__image"
+            src="/plane.webp"
+            alt="Gryphen aircraft"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/home.js"></script>
+  </body>
+</html>
