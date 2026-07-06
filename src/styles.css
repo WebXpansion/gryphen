@@ -1179,6 +1179,6 @@ html[data-menu-open="true"] .hamburger span:last-child {
   .advantages-ui__bottom p {
     width: min(100%, 280px);
     max-width: 280px;
-    font-size: 0.8rem;
+    font-size: 0.81rem;
   }
 }
