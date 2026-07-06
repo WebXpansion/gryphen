@@ -1118,3 +1118,67 @@ html[data-menu-open="true"] .hamburger span:last-child {
   opacity: 0.82;
   filter: brightness(1.15) contrast(1.08);
 }
+
+/* FIX MOBILE ADVANTAGES */
+
+@media (max-width: 860px) {
+  .advantages-ui__bottom {
+    left: 22px;
+    right: 22px;
+    bottom: 34px;
+    min-height: auto;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .advantages-ui__bottom h3 {
+    width: 100%;
+    margin: 0;
+    align-self: auto;
+    justify-self: auto;
+    color: #fff;
+    font-size: clamp(2.4rem, 13vw, 4rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+    text-align: center;
+  }
+
+  .advantages-ui__bottom p {
+    width: min(100%, 330px);
+    max-width: 330px;
+    margin: 0;
+    align-self: auto;
+    justify-self: auto;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.88rem;
+    line-height: 1.32;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .advantages-ui__bottom {
+    left: 18px;
+    right: 18px;
+    bottom: 26px;
+    padding: 24px 18px;
+    gap: 12px;
+  }
+
+  .advantages-ui__bottom h3 {
+    font-size: clamp(2.15rem, 14vw, 3.2rem);
+  }
+
+  .advantages-ui__bottom p {
+    width: min(100%, 280px);
+    max-width: 280px;
+    font-size: 0.8rem;
+  }
+}

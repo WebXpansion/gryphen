@@ -37,7 +37,12 @@ const HOME_PRODUCT_ITEMS = [
     }
   ];
 
-
+  const FACTORY_FRAME_COUNT = 150;
+  const FACTORY_FRAME_PATH = '/home-factory-frames/factory_';
+  const FACTORY_FRAME_EXT = '.jpg';
+  const FACTORY_INITIAL_FRAME = 1;
+  const FACTORY_TEXT_REVEAL_FRAME = 100;
+  const FACTORY_MAX_DPR = 2;
 const homeSequence = document.querySelector('#homeSequence');
 const homeCanvas = document.querySelector('#homeSequenceCanvas');
 const homeContext = homeCanvas.getContext('2d', { alpha: false });
@@ -52,6 +57,9 @@ const homeProductTitle = document.querySelector('#homeProductTitle');
 const homeProductText = document.querySelector('#homeProductText');
 const homeProductLink = document.querySelector('#homeProductLink');
 
+const factorySequence = document.querySelector('#factorySequence');
+const factoryCanvas = document.querySelector('#factorySequenceCanvas');
+const factoryCopy = document.querySelector('#factorySequenceCopy');
 const homeFrames = new Map();
 
 let homeCurrentFrame = HOME_INITIAL_FRAME;
@@ -285,6 +293,8 @@ function requestHomeUpdate() {
 async function initHomeSequence() {
     initSiteHeader();
   resizeHomeCanvas();
+  initFactorySequence();
+  initMissionCards();
   updateHomeDebug(HOME_INITIAL_FRAME, 0);
 
   try {
@@ -297,6 +307,197 @@ async function initHomeSequence() {
   } catch (error) {
     console.error('Impossible de charger la séquence home.', error);
   }
+}
+
+const factoryContext = factoryCanvas?.getContext('2d', { alpha: false });
+const factoryImages = new Map();
+
+let factoryCurrentFrame = FACTORY_INITIAL_FRAME;
+let factoryRafId = null;
+let factoryHasFirstPaint = false;
+
+function getFactoryFrameSrc(frame) {
+  return `${FACTORY_FRAME_PATH}${String(frame).padStart(4, '0')}${FACTORY_FRAME_EXT}`;
+}
+
+function clampFactoryFrame(frame) {
+  return Math.min(Math.max(frame, 1), FACTORY_FRAME_COUNT);
+}
+
+function getFactoryImage(frame) {
+  const safeFrame = clampFactoryFrame(frame);
+
+  if (factoryImages.has(safeFrame)) {
+    return factoryImages.get(safeFrame);
+  }
+
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = getFactoryFrameSrc(safeFrame);
+
+  const promise = new Promise((resolve, reject) => {
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+  });
+
+  factoryImages.set(safeFrame, promise);
+
+  return promise;
+}
+
+function drawFactoryImage(image) {
+  if (!factoryCanvas || !factoryContext || !image) return;
+
+  const canvasWidth = factoryCanvas.width;
+  const canvasHeight = factoryCanvas.height;
+
+  const imageRatio = image.naturalWidth / image.naturalHeight;
+  const canvasRatio = canvasWidth / canvasHeight;
+
+  let drawWidth = canvasWidth;
+  let drawHeight = canvasHeight;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  if (imageRatio > canvasRatio) {
+    drawHeight = canvasHeight;
+    drawWidth = drawHeight * imageRatio;
+    offsetX = (canvasWidth - drawWidth) / 2;
+  } else {
+    drawWidth = canvasWidth;
+    drawHeight = drawWidth / imageRatio;
+    offsetY = (canvasHeight - drawHeight) / 2;
+  }
+
+  factoryContext.clearRect(0, 0, canvasWidth, canvasHeight);
+  factoryContext.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+}
+
+async function renderFactoryFrame(frame) {
+  const safeFrame = clampFactoryFrame(frame);
+  const image = await getFactoryImage(safeFrame);
+
+  if (safeFrame !== factoryCurrentFrame && factoryHasFirstPaint) return;
+
+  drawFactoryImage(image);
+  factoryHasFirstPaint = true;
+}
+
+function resizeFactoryCanvas() {
+  if (!factoryCanvas || !factoryContext) return;
+
+  const rect = factoryCanvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, FACTORY_MAX_DPR);
+
+  factoryCanvas.width = Math.round(rect.width * dpr);
+  factoryCanvas.height = Math.round(rect.height * dpr);
+
+  renderFactoryFrame(factoryCurrentFrame);
+}
+
+function updateFactoryCopy(frame) {
+  if (!factoryCopy) return;
+
+  factoryCopy.classList.toggle('is-visible', frame >= FACTORY_TEXT_REVEAL_FRAME);
+}
+
+function updateFactorySequence() {
+  if (!factorySequence || !factoryCanvas) return;
+
+  const rect = factorySequence.getBoundingClientRect();
+  const scrollableDistance = factorySequence.offsetHeight - window.innerHeight;
+  const scrolled = Math.min(Math.max(-rect.top, 0), scrollableDistance);
+  const progress = scrollableDistance > 0 ? scrolled / scrollableDistance : 0;
+
+  const nextFrame = clampFactoryFrame(
+    Math.round(progress * (FACTORY_FRAME_COUNT - 1)) + 1
+  );
+
+  factoryCurrentFrame = nextFrame;
+  updateFactoryCopy(nextFrame);
+  renderFactoryFrame(nextFrame);
+
+  getFactoryImage(nextFrame + 1);
+  getFactoryImage(nextFrame + 2);
+  getFactoryImage(nextFrame + 3);
+}
+
+function requestFactoryUpdate() {
+  if (factoryRafId) return;
+
+  factoryRafId = requestAnimationFrame(() => {
+    factoryRafId = null;
+    updateFactorySequence();
+  });
+}
+
+const missionCardsSection = document.querySelector('#missionCardsSection');
+const missionCards = [...document.querySelectorAll('.mission-card')];
+
+let activeMissionCardIndex = 0;
+let missionCardsRafId = null;
+
+function setActiveMissionCard(index) {
+  if (!missionCards.length) return;
+  if (index === activeMissionCardIndex) return;
+
+  activeMissionCardIndex = index;
+
+  missionCards.forEach((card, cardIndex) => {
+    card.classList.toggle('is-active', cardIndex === activeMissionCardIndex);
+  });
+}
+
+function updateMissionCards() {
+  if (!missionCardsSection || !missionCards.length) return;
+
+  const rect = missionCardsSection.getBoundingClientRect();
+  const scrollableDistance = missionCardsSection.offsetHeight - window.innerHeight;
+  const scrolled = Math.min(Math.max(-rect.top, 0), scrollableDistance);
+  const progress = scrollableDistance > 0 ? scrolled / scrollableDistance : 0;
+
+  const nextIndex = Math.min(
+    missionCards.length - 1,
+    Math.floor(progress * missionCards.length)
+  );
+
+  setActiveMissionCard(nextIndex);
+}
+
+function requestMissionCardsUpdate() {
+  if (missionCardsRafId) return;
+
+  missionCardsRafId = requestAnimationFrame(() => {
+    missionCardsRafId = null;
+    updateMissionCards();
+  });
+}
+
+function initMissionCards() {
+  if (!missionCardsSection || !missionCards.length) return;
+
+  missionCards[0].classList.add('is-active');
+
+  window.addEventListener('scroll', requestMissionCardsUpdate, { passive: true });
+  window.addEventListener('resize', requestMissionCardsUpdate);
+
+  requestMissionCardsUpdate();
+}
+
+function initFactorySequence() {
+  if (!factorySequence || !factoryCanvas || !factoryContext) return;
+
+  resizeFactoryCanvas();
+  updateFactoryCopy(FACTORY_INITIAL_FRAME);
+  renderFactoryFrame(FACTORY_INITIAL_FRAME);
+
+  window.addEventListener('scroll', requestFactoryUpdate, { passive: true });
+  window.addEventListener('resize', () => {
+    resizeFactoryCanvas();
+    requestFactoryUpdate();
+  });
+
+  requestFactoryUpdate();
 }
 
 window.addEventListener('scroll', requestHomeUpdate, { passive: true });
