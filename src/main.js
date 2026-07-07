@@ -4,6 +4,10 @@ import {
   setDigitalRevealText,
   setDigitalRevealVisible
 } from './digitalReveal.js';
+import {
+  initSiteLoader,
+  buildFramePreloadList
+} from './siteLoader.js';
 import { initSiteHeader } from './siteHeader.js';
 
 const FRAME_COUNT = 950;
@@ -646,6 +650,15 @@ desktopMouseQuery.addEventListener?.('change', updateMouseFollowState);
 }
 
 async function init() {
+  initSiteLoader({
+    minDuration: 2600,
+    preloadUrls: buildFramePreloadList({
+      path: FRAME_PATH,
+      ext: FRAME_EXT,
+      count: FRAME_COUNT,
+      limit: 180
+    })
+  });
   initSiteHeader();
   initDigitalRevealObserver();
   initProductRotate();

@@ -6,6 +6,11 @@ import {
 
 import { initSiteHeader } from './siteHeader.js';
 
+import {
+  initSiteLoader,
+  buildFramePreloadList
+} from './siteLoader.js';
+
 const HOME_FRAME_COUNT = 646;
 const HOME_FRAME_PATH = '/home-frames/home_';
 const HOME_FRAME_EXT = '.jpg';
@@ -291,6 +296,23 @@ function requestHomeUpdate() {
 }
 
 async function initHomeSequence() {
+  initSiteLoader({
+    minDuration: 2600,
+    preloadUrls: [
+      ...buildFramePreloadList({
+        path: HOME_FRAME_PATH,
+        ext: HOME_FRAME_EXT,
+        count: HOME_FRAME_COUNT,
+        limit: 160
+      }),
+      ...buildFramePreloadList({
+        path: FACTORY_FRAME_PATH,
+        ext: FACTORY_FRAME_EXT,
+        count: FACTORY_FRAME_COUNT,
+        limit: 80
+      })
+    ]
+  });  
     initSiteHeader();
   resizeHomeCanvas();
   initFactorySequence();
